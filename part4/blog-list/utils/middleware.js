@@ -42,7 +42,7 @@ const tokenExtractor = (request, response, next) => {
       request.token = auth.replace('Bearer ', '')
   }
 
-  console.log(request.token);
+  console.log(request.token, 'TOKEN IN THE REQUEST');
   
 
   next()
@@ -57,7 +57,7 @@ const userExtractor = async (request, response, next) => {
   }
 
   if(userOfToken) {
-    console.log(userOfToken);
+    console.log(userOfToken, 'USER OF THE TOKEN');
     let user = await User.findById(userOfToken.id); 
     request.user = user;
   }
