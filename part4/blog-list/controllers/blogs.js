@@ -49,6 +49,25 @@ blogRouter.post('/', async (request, response) => {
      response.status(201).json(populatedBlog); 
 })
 
+blogRouter.post('/:id/comments', async (request, response) => {
+
+    if(!request.body.comment) {
+        return response.status(400)
+            .json({ error: 'Bad request, the comment is needed' })
+    }
+
+    let blog = await Blog.findById(request.params.id);
+    if (!blog) {
+        return response.status(404).json({ error: 'Blog not found' });
+    }
+
+
+    blog.comments.push(request.body.comment);
+    await blog.save();
+
+    return response.status(201).json(blog)
+})
+
 blogRouter.delete('/:id', async (request, response) => {
     const user = request.user;
 
